@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Osgi_Calculator
+Bundle-SymbolicName: OsgiCalculator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: osgi_calculator.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-14
+Automatic-Module-Name: Osgi.Calculator
+Import-Package: org.osgi.framework;version="1.3.0",
+ osgimath
+Bundle-ActivationPolicy: lazy
