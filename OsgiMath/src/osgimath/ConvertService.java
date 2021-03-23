@@ -257,6 +257,7 @@ public class ConvertService {
 						result += 90;
 						break;
 					case "yüz":
+						result=1;
 						result *= 100;
 						break;
 					case "bin":
@@ -306,9 +307,11 @@ public class ConvertService {
 			" seksen", " doksan" };
 
 	private final String[] NamesTurkish2 = { "", " bir", " iki", " üç", " dört", " beþ", " altý", " yedi", " sekiz",
-			" dokuz", " on " };
+			" dokuz", " on ", " on bir", " on iki", " on üç", " on dört", " on beþ", " on altý", " on yedi",
+			" on sekiz", " on dokuz" };
 
 	public String convertLessThanOneThousandTurkishNumber(int number) {
+
 		String soFar;
 
 		if (number % 100 < 20) {
@@ -320,10 +323,15 @@ public class ConvertService {
 
 			soFar = NamesTurkish[number % 10] + soFar;
 			number /= 10;
+
 		}
+
 		if (number == 0)
 			return soFar;
-		return NamesTurkish[number] + " yüz" + soFar;
+		if ( number == 1)
+			return " yüz" + soFar;
+
+		return NamesTurkish2[number] + " yüz" + soFar;
 	}
 
 	public String convertTurkishNumber(long number) {
