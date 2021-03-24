@@ -257,30 +257,41 @@ public class ConvertService {
 						result += 90;
 						break;
 					case "yüz":
-						result=1;
+						if (result == 0)
+							result = 1;
 						result *= 100;
 						break;
 					case "bin":
+						if (result == 0)
+							result = 1;
 						result *= 1000;
 						finalResult += result;
 						result = 0;
 						break;
 					case "milyon":
+						if (result == 0)
+							result = 1;
 						result *= 1000000;
 						finalResult += result;
 						result = 0;
 						break;
 					case "milyar":
+						if (result == 0)
+							result = 1;
 						result *= 1000000000;
 						finalResult += result;
 						result = 0;
 						break;
 					case "trilyon":
+						if (result == 0)
+							result = 1;
 						result *= 1000000000000L;
 						finalResult += result;
 						result = 0;
 						break;
 					case "katrilyon":
+						if (result == 0)
+							result = 1;
 						result *= 1000000000000000L;
 						finalResult += result;
 						result = 0;
@@ -365,7 +376,7 @@ public class ConvertService {
 			tradBillions = convertLessThanOneThousandTurkishNumber(milyar) + " milyar ";
 			break;
 		default:
-			tradBillions = convertLessThanOneThousandTurkishNumber(milyon) + " milyon ";
+			tradBillions = convertLessThanOneThousandTurkishNumber(milyar) + " milyar ";
 		}
 		String result = tradBillions;
 
@@ -388,10 +399,10 @@ public class ConvertService {
 			tradHundredThousands = "";
 			break;
 		case 1:
-			tradHundredThousands = "bin ";
+			tradHundredThousands = convertLessThanOneThousandTurkishNumber(yüzBin) + " bin";
 			break;
 		default:
-			tradHundredThousands = convertLessThanOneThousandTurkishNumber(yüzBin) + " yüzBin ";
+			tradHundredThousands = convertLessThanOneThousandTurkishNumber(yüzBin) + " bin";
 		}
 		result = result + tradHundredThousands;
 

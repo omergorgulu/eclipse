@@ -1,11 +1,11 @@
 package osgi_calculator;
 
 import java.awt.event.*;
-import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -17,14 +17,8 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		System.out.println("Hello World!!");
-		Locale locale = Locale.getDefault();
-		String lang = locale.getDisplayLanguage();
-		String country = locale.getDisplayCountry();
-		System.out.println(lang);
-		System.out.println(country);
-		String b = System.getProperty("user.language");
-		System.out.println(b);
 		this.createPanel(context);
+
 	}
 
 	@Override
@@ -93,29 +87,15 @@ public class Activator implements BundleActivator {
 				long x = service.parseTrString(s1);
 				long y = service.parseTrString(s2);
 				long z = x - y;
-				if (z < 0) {
-					long p = Math.abs(z);
-					if (p < 1000) {
-						System.out.println(p);
-						String m = service.convertLessThanOneThousandTurkishNumber((int) p);
-						t3.setText("eksi" + m);
+				if (z < 1000) {
+					System.out.println(z);
+					String m = service.convertLessThanOneThousandTurkishNumber((int) z);
+					t3.setText(m);
 
-					} else {
-						String n = service.convertTurkishNumber(p);
-						t3.setText("eksi" + n);
-						System.out.println(n);
-					}
 				} else {
-					if (z < 1000) {
-						System.out.println(z);
-						String m = service.convertLessThanOneThousandTurkishNumber((int) z);
-						t3.setText(m);
-
-					} else {
-						String n = service.convertTurkishNumber(z);
-						t3.setText(n);
-						System.out.println(n);
-					}
+					String n = service.convertTurkishNumber(z);
+					t3.setText(n);
+					System.out.println(n);
 				}
 			}
 
@@ -150,7 +130,7 @@ public class Activator implements BundleActivator {
 			public void actionPerformed(ActionEvent e) {
 				String s1 = t1.getText();
 				String s2 = t2.getText();
-
+				
 				ServiceReference<?> serviceReference = context.getServiceReference(ConvertService.class);
 				ConvertService service = (ConvertService) context.getService(serviceReference);
 				long x = service.parseTrString(s1);
@@ -160,7 +140,7 @@ public class Activator implements BundleActivator {
 					System.out.println(z);
 					String m = service.convertLessThanOneThousandTurkishNumber((int) z);
 					t3.setText(m);
-
+					
 				} else {
 					String n = service.convertTurkishNumber(z);
 					t3.setText(n);
@@ -190,5 +170,6 @@ public class Activator implements BundleActivator {
 		f.setSize(900, 500);// 400 width and 500 height
 		f.setLayout(null);// using no layout managers
 		f.setVisible(true);// making the frame visible
+
 	}
 }
