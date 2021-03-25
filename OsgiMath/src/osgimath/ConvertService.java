@@ -339,7 +339,7 @@ public class ConvertService {
 
 		if (number == 0)
 			return soFar;
-		if ( number == 1)
+		if (number == 1)
 			return " yüz" + soFar;
 
 		return NamesTurkish2[number] + " yüz" + soFar;
@@ -394,16 +394,23 @@ public class ConvertService {
 		result = result + tradMillions;
 
 		String tradHundredThousands;
+
 		switch (yüzBin) {
 		case 0:
 			tradHundredThousands = "";
 			break;
 		case 1:
+			String s1 = " bir bin";
 			tradHundredThousands = convertLessThanOneThousandTurkishNumber(yüzBin) + " bin";
+			if (tradHundredThousands.equals(s1)) {
+				tradHundredThousands = "bin";
+			}
 			break;
 		default:
 			tradHundredThousands = convertLessThanOneThousandTurkishNumber(yüzBin) + " bin";
+			System.out.println(tradHundredThousands + "ssssss");
 		}
+
 		result = result + tradHundredThousands;
 
 		String tradThousand;
