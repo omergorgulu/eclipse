@@ -17,13 +17,7 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		System.out.println("Hello World!!");
-		Locale locale = Locale.getDefault();
-		String lang = locale.getDisplayLanguage();
-		String country = locale.getDisplayCountry();
-		System.out.println(lang);
-		System.out.println(country);
-		String b = System.getProperty("user.language");
-		System.out.println(b);
+
 		this.createPanel(context);
 	}
 
@@ -33,6 +27,15 @@ public class Activator implements BundleActivator {
 	}
 
 	public void createPanel(BundleContext context) {
+
+		Locale locale = Locale.getDefault();
+		String lang = locale.getDisplayLanguage();
+
+		System.out.println(lang);
+
+		String v = System.getProperty("user.language");
+		System.out.println(v);
+
 		JFrame f = new JFrame();// creating instance of JFrame
 		JLabel l1, l2, l3;
 		JTextField t1, t2, t3;
@@ -66,19 +69,42 @@ public class Activator implements BundleActivator {
 
 				ServiceReference<?> serviceReference = context.getServiceReference(ConvertService.class);
 				ConvertService service = (ConvertService) context.getService(serviceReference);
-				// Locale lang = Locale.getDefault();
-				long x = service.parseTrString(s1);
-				long y = service.parseTrString(s2);
-				long z = x + y;
-				if (z < 1000) {
-					System.out.println(z);
-					String m = service.convertLessThanOneThousandTurkishNumber((int) z);
-					t3.setText(m);
 
+				System.out.println(lang);
+				System.out.println(v);
+
+				String Tr = "tr";
+
+				if (v.equals(Tr)) {
+
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x + y;
+					if (z < 1000) {
+						System.out.println(z);
+						String m = service.convertLessThanOneThousandTurkishNumber((int) z);
+						t3.setText(m);
+
+					} else {
+						String n = service.convertTurkishNumber(z);
+						t3.setText(n);
+						System.out.println(n);
+					}
 				} else {
-					String n = service.convertTurkishNumber(z);
-					t3.setText(n);
-					System.out.println(n);
+
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x + y;
+					if (z < 1000) {
+						System.out.println(z);
+						String m = service.convertLessThanOneThousandEnglishNumber((int) z);
+						t3.setText(m);
+
+					} else {
+						String n = service.convertEnglishNumber(z);
+						t3.setText(n);
+						System.out.println(n);
+					}
 				}
 			}
 		});
@@ -90,35 +116,66 @@ public class Activator implements BundleActivator {
 				String s2 = t2.getText();
 				ServiceReference<?> serviceReference = context.getServiceReference(ConvertService.class);
 				ConvertService service = (ConvertService) context.getService(serviceReference);
-				long x = service.parseTrString(s1);
-				long y = service.parseTrString(s2);
-				long z = x - y;
-				if (z < 0) {
-					long p = Math.abs(z);
-					if (p < 1000) {
-						System.out.println(p);
-						String m = service.convertLessThanOneThousandTurkishNumber((int) p);
-						t3.setText("eksi" + m);
+				String Tr = "tr";
 
+				if (v.equals(Tr)) {
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x - y;
+					if (z < 0) {
+						long p = Math.abs(z);
+						if (p < 1000) {
+							System.out.println(p);
+							String m = service.convertLessThanOneThousandTurkishNumber((int) p);
+							t3.setText("eksi" + m);
+
+						} else {
+							String n = service.convertTurkishNumber(p);
+							t3.setText("eksi" + n);
+							System.out.println(n);
+						}
 					} else {
-						String n = service.convertTurkishNumber(p);
-						t3.setText("eksi" + n);
-						System.out.println(n);
+						if (z < 1000) {
+							System.out.println(z);
+							String m = service.convertLessThanOneThousandTurkishNumber((int) z);
+							t3.setText(m);
+
+						} else {
+							String n = service.convertTurkishNumber(z);
+							t3.setText(n);
+							System.out.println(n);
+						}
 					}
 				} else {
-					if (z < 1000) {
-						System.out.println(z);
-						String m = service.convertLessThanOneThousandTurkishNumber((int) z);
-						t3.setText(m);
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x - y;
+					if (z < 0) {
+						long p = Math.abs(z);
+						if (p < 1000) {
+							System.out.println(p);
+							String m = service.convertLessThanOneThousandEnglishNumber((int) p);
+							t3.setText("eksi" + m);
 
+						} else {
+							String n = service.convertEnglishNumber(p);
+							t3.setText("eksi" + n);
+							System.out.println(n);
+						}
 					} else {
-						String n = service.convertTurkishNumber(z);
-						t3.setText(n);
-						System.out.println(n);
+						if (z < 1000) {
+							System.out.println(z);
+							String m = service.convertLessThanOneThousandEnglishNumber((int) z);
+							t3.setText(m);
+
+						} else {
+							String n = service.convertEnglishNumber(z);
+							t3.setText(n);
+							System.out.println(n);
+						}
 					}
 				}
 			}
-
 		});
 
 		d.addActionListener(new ActionListener() {
@@ -129,18 +186,45 @@ public class Activator implements BundleActivator {
 
 				ServiceReference<?> serviceReference = context.getServiceReference(ConvertService.class);
 				ConvertService service = (ConvertService) context.getService(serviceReference);
-				long x = service.parseTrString(s1);
-				long y = service.parseTrString(s2);
-				long z = x * y;
-				if (z < 1000) {
-					System.out.println(z);
-					String m = service.convertLessThanOneThousandTurkishNumber((int) z);
-					t3.setText(m);
 
+				String Tr = "tr";
+
+				if (v.equals(Tr)) {
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x * y;
+					if (z < 1000) {
+						if (z == 0) {
+							String o = "sýfýr";
+							t3.setText(o);
+						} else {
+							System.out.println(z);
+							String m = service.convertLessThanOneThousandTurkishNumber((int) z);
+							t3.setText(m);
+						}
+					} else {
+						String n = service.convertTurkishNumber(z);
+						t3.setText(n);
+						System.out.println(n);
+					}
 				} else {
-					String n = service.convertTurkishNumber(z);
-					t3.setText(n);
-					System.out.println(n);
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+					long z = x * y;
+					if (z < 1000) {
+						if (z == 0) {
+							String l = "Zero";
+							t3.setText(l);
+						} else {
+							System.out.println(z);
+							String m = service.convertLessThanOneThousandEnglishNumber((int) z);
+							t3.setText(m);
+						}
+					} else {
+						String n = service.convertEnglishNumber(z);
+						t3.setText(n);
+						System.out.println(n);
+					}
 				}
 			}
 		});
@@ -148,23 +232,68 @@ public class Activator implements BundleActivator {
 		g.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s1 = t1.getText();
-				String s2 = t2.getText();
 
 				ServiceReference<?> serviceReference = context.getServiceReference(ConvertService.class);
 				ConvertService service = (ConvertService) context.getService(serviceReference);
-				long x = service.parseTrString(s1);
-				long y = service.parseTrString(s2);
-				long z = x / y;
-				if (z < 1000) {
-					System.out.println(z);
-					String m = service.convertLessThanOneThousandTurkishNumber((int) z);
-					t3.setText(m);
 
+				String s1 = t1.getText();
+				String s2 = t2.getText();
+
+				String Tr = "tr";
+
+				if (v.equals(Tr)) {
+
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+
+					if (y == 0) {
+						String s = "Bir sayý sýfýra bölünemez";
+						t3.setText(s);
+
+					} else {
+						if (x < y | x == 0) {
+							String s = "sýfýr";
+							t3.setText(s);
+						} else {
+							long z = x / y;
+							if (z < 1000) {
+								System.out.println(z);
+								String m = service.convertLessThanOneThousandTurkishNumber((int) z);
+								t3.setText(m);
+
+							} else {
+								String n = service.convertTurkishNumber(z);
+								t3.setText(n);
+								System.out.println(n);
+							}
+						}
+					}
 				} else {
-					String n = service.convertTurkishNumber(z);
-					t3.setText(n);
-					System.out.println(n);
+
+					long x = service.parseTrString(s1);
+					long y = service.parseTrString(s2);
+
+					if (y == 0) {
+						String s = "A number cannot be divided by zero";
+						t3.setText(s);
+					} else {
+						if (x == 0) {
+							String s = "zero";
+							t3.setText(s);
+						} else {
+							long z = x / y;
+							if (z < 1000) {
+								System.out.println(z);
+								String m = service.convertLessThanOneThousandEnglishNumber((int) z);
+								t3.setText(m);
+
+							} else {
+								String n = service.convertEnglishNumber(z);
+								t3.setText(n);
+								System.out.println(n);
+							}
+						}
+					}
 				}
 			}
 		});
